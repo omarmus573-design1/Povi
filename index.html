@@ -1,7 +1,632 @@
 <!doctype html>
 <html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Povi — Connection, not popularity</title>
+
+<style>
+:root{
+  --bg:#f4ecdf;
+  --card:#fffaf2;
+  --ink:#342d27;
+  --muted:#756a60;
+  --line:#ded1c1;
+  --accent:#6e5a46
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font:16px system-ui,-apple-system,Segoe UI,sans-serif
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{
+  max-width:760px;
+  margin:auto;
+  min-height:100vh;
+  padding:22px
+}
+.brand{
+  font-weight:800;
+  font-size:28px;
+  letter-spacing:.5px
+}
+.tag{
+  color:var(--muted);
+  margin-top:2px
+}
+.screen{
+  padding:44px 0 90px
+}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:22px;
+  margin:14px 0;
+  box-shadow:0 5px 20px #4a39250b
+}
+.hero{
+  font-size:clamp(32px,7vw,58px);
+  line-height:1.03;
+  margin:25px 0
+}
+.muted{color:var(--muted)}
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px
+}
+.chip{
+  border:1px solid var(--line);
+  background:transparent;
+  border-radius:999px;
+  padding:10px 15px
+}
+.chip.on{
+  background:var(--ink);
+  color:white;
+  border-color:var(--ink)
+}
+.primary{
+  background:var(--ink);
+  color:#fff;
+  border:0;
+  border-radius:14px;
+  padding:13px 18px
+}
+.ghost{
+  background:transparent;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px 16px
+}
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center
+}
+.nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fffaf2ef;
+  border-top:1px solid var(--line);
+  backdrop-filter:blur(10px)
+}
+.navin{
+  max-width:760px;
+  margin:auto;
+  display:flex;
+  justify-content:space-around;
+  padding:9px
+}
+.nav button{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:8px
+}
+.nav button.active{
+  color:var(--ink);
+  font-weight:700
+}
+.post{
+  white-space:pre-wrap;
+  line-height:1.5
+}
+.question{
+  font-size:22px;
+  line-height:1.25
+}
+.input{
+  width:100%;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#fffdf9
+}
+.small{
+  font-size:13px
+}
+.count{
+  font-size:12px;
+  color:var(--muted)
+}
+</style>
+</head>
+
 <body>
-<h1>Povi is working 🌱</h1>
-<p>Hello from Povi.</p>
+<div id="app"></div>
+
+<script>
+const interests = [
+  'Questioning',
+  'Learning',
+  'Creating',
+  'Nature',
+  'Languages',
+  'Ideas',
+  'Maths',
+  'Economics',
+  'Books',
+  'Travel',
+  'Technology',
+  'Drawing'
+];
+
+const seed = [
+  ['Questioning','Why do we sometimes keep doing something even when we know we should stop?'],
+  ['Languages','What makes a word feel beautiful in one language but ordinary in another?'],
+  ['Nature','What is a place in nature that made you stop and just look?'],
+  ['Creating','Why do people enjoy making things even when nobody sees them?'],
+  ['Ideas','What is something people accept as normal that you think is worth questioning?'],
+  ['Maths','What part of maths feels more like discovery than calculation?']
+];
+
+function getStored(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+const state = {
+  tab: 'home',
+  chosen: getStored('poviInterests', []),
+  started: localStorage.getItem('poviStarted') === 'true',
+  convo: null,
+  posts: getStored('poviPosts', [])
+};
+
+function save() {
+  try {
+    localStorage.setItem(
+      'poviInterests',
+      JSON.stringify(state.chosen)
+    );
+
+    localStorage.setItem(
+      'poviPosts',
+      JSON.stringify(state.posts)
+    );
+
+    localStorage.setItem(
+      'poviStarted',
+      String(state.started)
+    );
+  } catch {}
+}
+
+function shell(content) {
+  document.getElementById('app').innerHTML = `
+    <div class="app">
+      <div class="brand">povi</div>
+      <div class="tag">connection, not popularity.</div>
+
+      <main class="screen">
+        ${content}
+      </main>
+    </div>
+
+    ${
+      state.started
+        ? `
+        <div class="nav">
+          <div class="navin">
+            <button class="${state.tab === 'home' ? 'active' : ''}" onclick="go('home')">
+              ⌂ Home
+            </button>
+
+            <button class="${state.tab === 'convo' ? 'active' : ''}" onclick="go('convo')">
+              ◌ Convo
+            </button>
+
+            <button class="${state.tab === 'discover' ? 'active' : ''}" onclick="go('discover')">
+              ⌕ Discover
+            </button>
+
+            <button class="${state.tab === 'create' ? 'active' : ''}" onclick="go('create')">
+              ＋ Create
+            </button>
+          </div>
+        </div>
+        `
+        : ''
+    }
+  `;
+}
+
+function go(tab) {
+  state.tab = tab;
+  state.convo = null;
+  render();
+}
+
+function onboarding() {
+  shell(`
+    <div class="hero">
+      What are you curious about today?
+    </div>
+
+    <p class="muted">
+      Choose a few things. Povi uses them to help you find common ground—not to rank you.
+    </p>
+
+    <div class="chips">
+      ${interests.map(x => `
+        <button
+          class="chip ${state.chosen.includes(x) ? 'on' : ''}"
+          onclick="pick('${x}')"
+        >
+          ${x}
+        </button>
+      `).join('')}
+    </div>
+
+    <button
+      class="primary"
+      style="margin-top:22px"
+      onclick="start()"
+    >
+      Continue
+    </button>
+  `);
+}
+
+function pick(x) {
+  if (state.chosen.includes(x)) {
+    state.chosen = state.chosen.filter(y => y !== x);
+  } else {
+    state.chosen = [...state.chosen, x];
+  }
+
+  save();
+  onboarding();
+}
+
+function start() {
+  if (!state.chosen.length) {
+    alert('Choose at least one interest first.');
+    return;
+  }
+
+  state.started = true;
+  save();
+  go('home');
+}
+
+function home() {
+  const relevant = seed
+    .filter(x => state.chosen.includes(x[0]))
+    .slice(0,3);
+
+  shell(`
+    <h1>What are you curious about today?</h1>
+
+    <p class="muted">
+      Pick a path. There's no endless feed waiting underneath.
+    </p>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <b>💬 Convo</b>
+          <div class="muted">
+            Find a question people are exploring together.
+          </div>
+        </div>
+
+        <button class="primary" onclick="go('convo')">
+          Open
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <b>🔎 Discover</b>
+          <div class="muted">
+            See a small set of posts around your interests.
+          </div>
+        </div>
+
+        <button class="ghost" onclick="go('discover')">
+          Open
+        </button>
+      </div>
+    </div>
+
+    ${
+      relevant.length
+        ? `
+          <h3>Your common ground</h3>
+
+          ${relevant.map(x => `
+            <div class="card">
+              <div class="count">${x[0]}</div>
+
+              <div class="question">
+                ${x[1]}
+              </div>
+
+              <button
+                class="ghost"
+                style="margin-top:13px"
+                onclick="startConvo('${encodeURIComponent(x[1])}')"
+              >
+                Question this together
+              </button>
+            </div>
+          `).join('')}
+        `
+        : `
+          <div class="card">
+            <b>Choose a few interests</b>
+            <p class="muted">
+              We'll use them to surface conversations that could feel relevant.
+            </p>
+          </div>
+        `
+    }
+
+    <div class="card" style="text-align:center">
+      <b>You're all caught up.</b>
+      <p class="muted">
+        Do something. 🌱
+      </p>
+    </div>
+  `);
+}
+
+function convo() {
+  const relevant = seed.filter(x =>
+    state.chosen.includes(x[0])
+  );
+
+  const questions = relevant.length
+    ? relevant
+    : seed.slice(0,3);
+
+  shell(`
+    <h1>Convo</h1>
+
+    <p class="muted">
+      Common ground first. Conversation second.
+    </p>
+
+    ${questions.map(x => `
+      <div class="card">
+        <div class="count">${x[0]}</div>
+
+        <div class="question">
+          ${x[1]}
+        </div>
+
+        <button
+          class="primary"
+          style="margin-top:14px"
+          onclick="startConvo('${encodeURIComponent(x[1])}')"
+        >
+          Join
+        </button>
+      </div>
+    `).join('')}
+  `);
+}
+
+function startConvo(q) {
+  state.convo = decodeURIComponent(q);
+  renderConversation();
+}
+
+function renderConversation() {
+  shell(`
+    <h1>Let's question it.</h1>
+
+    <div class="card">
+      <div class="question">
+        ${escapeHtml(state.convo)}
+      </div>
+
+      <p class="muted small">
+        This prototype simulates a shared conversation.
+        In the real Povi, people who choose the same conversation would meet here.
+      </p>
+
+      <div id="msgs">
+        <div class="card">
+          <b>Povi</b>
+
+          <p class="post">
+            You don't have to know the answer. That's the point.
+          </p>
+        </div>
+      </div>
+
+      <input
+        id="msg"
+        class="input"
+        placeholder="Say what you think…"
+      >
+
+      <button
+        class="primary"
+        style="margin-top:10px"
+        onclick="send()"
+      >
+        Send
+      </button>
+
+      <button
+        class="ghost"
+        style="margin:10px 0 0 8px"
+        onclick="finish()"
+      >
+        I'm done
+      </button>
+    </div>
+  `);
+}
+
+function send() {
+  const input = document.getElementById('msg');
+
+  if (!input) return;
+
+  const value = input.value.trim();
+
+  if (!value) return;
+
+  document.getElementById('msgs').innerHTML += `
+    <div class="card">
+      <b>You</b>
+      <p class="post">${escapeHtml(value)}</p>
+    </div>
+  `;
+
+  input.value = '';
+}
+
+function finish() {
+  state.convo = null;
+  go('home');
+}
+
+function discover() {
+  const posts = [
+    ...state.posts.map(p => [p.interest, p.text, 'You']),
+    ...seed
+  ];
+
+  shell(`
+    <h1>Discover</h1>
+
+    <p class="muted">
+      A small window into what people are thinking—not a popularity scoreboard.
+    </p>
+
+    ${posts.slice(0,6).map(x => `
+      <div class="card">
+        <div class="count">
+          ${escapeHtml(x[0])} · ${escapeHtml(x[2])}
+        </div>
+
+        <div class="post">
+          ${escapeHtml(x[1])}
+        </div>
+
+        <button
+          class="ghost"
+          style="margin-top:12px"
+          onclick="startConvo('${encodeURIComponent(x[1])}')"
+        >
+          Question this
+        </button>
+      </div>
+    `).join('')}
+
+    <div class="card" style="text-align:center">
+      <b>That's enough for now.</b>
+
+      <p class="muted">
+        You're all caught up. Do something.
+      </p>
+    </div>
+  `);
+}
+
+function create() {
+  shell(`
+    <h1>Create something.</h1>
+
+    <p class="muted">
+      Share a thought, question, or small thing you made.
+    </p>
+
+    <div class="card">
+      <input
+        id="pt"
+        class="input"
+        placeholder="What's on your mind?"
+      >
+
+      <div style="height:10px"></div>
+
+      <select id="pi" class="input">
+        ${interests.map(x => `
+          <option>${x}</option>
+        `).join('')}
+      </select>
+
+      <button
+        class="primary"
+        style="margin-top:12px"
+        onclick="post()"
+      >
+        Post
+      </button>
+    </div>
+  `);
+}
+
+function post() {
+  const input = document.getElementById('pt');
+  const select = document.getElementById('pi');
+
+  if (!input || !select) return;
+
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  state.posts.unshift({
+    text: text,
+    interest: select.value
+  });
+
+  save();
+  go('discover');
+}
+
+function escapeHtml(value) {
+  return String(value).replace(
+    /[&<>"']/g,
+    char => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#039;'
+    }[char])
+  );
+}
+
+function render() {
+  if (!state.started) {
+    onboarding();
+    return;
+  }
+
+  const screens = {
+    home,
+    convo,
+    discover,
+    create
+  };
+
+  (screens[state.tab] || home)();
+}
+
+render();
+</script>
 </body>
-</html>
+  </html>

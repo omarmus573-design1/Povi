@@ -219,6 +219,170 @@ h3{
 select.input{
   appearance:auto
 }
+  /* ---------- POVI HOME ---------- */
+
+.homeIntro{
+  margin-bottom:30px;
+}
+
+.homeEyebrow{
+  font-size:13px;
+  font-weight:700;
+  color:var(--muted);
+  letter-spacing:.5px;
+  margin-bottom:9px;
+}
+
+.homeTitle{
+  font-size:clamp(36px,8vw,56px);
+  line-height:1.02;
+  letter-spacing:-2px;
+  margin:0;
+}
+
+.interestWorld{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin:22px 0 34px;
+}
+
+.interest{
+  padding:9px 14px;
+  border-radius:999px;
+  font-size:14px;
+  border:1px solid transparent;
+}
+
+.interest:nth-child(4n+1){
+  background:#dce8d9;
+  border-color:#cbdcc7;
+}
+
+.interest:nth-child(4n+2){
+  background:#f3e5bd;
+  border-color:#e8d69d;
+}
+
+.interest:nth-child(4n+3){
+  background:#dce7ed;
+  border-color:#c9d9e2;
+}
+
+.interest:nth-child(4n){
+  background:#e5ddec;
+  border-color:#d6c8df;
+}
+
+.mirrorQuestion{
+  background:#f3e5bd;
+  border:1px solid #e7d59e;
+  border-radius:25px;
+  padding:22px;
+  margin:0 0 30px;
+}
+
+.mirrorLabel{
+  font-size:12px;
+  font-weight:750;
+  color:#756544;
+  margin-bottom:10px;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+}
+
+.mirrorQuestion .question{
+  font-size:24px;
+  margin:0;
+}
+
+.mirrorQuestion button{
+  margin-top:15px;
+}
+
+.worldHeading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:0 0 10px;
+}
+
+.worldHeading h3{
+  margin:0;
+}
+
+.worldHeading span{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.smallThought{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  padding:16px 2px;
+  border-bottom:1px solid rgba(222,209,193,.8);
+}
+
+.smallThought:last-child{
+  border-bottom:0;
+}
+
+.thoughtDot{
+  width:38px;
+  height:38px;
+  min-width:38px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+}
+
+.thoughtText{
+  line-height:1.45;
+}
+
+.thoughtMeta{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.homePaths{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:30px;
+}
+
+.homePath{
+  padding:18px;
+  border-radius:21px;
+  min-height:125px;
+}
+
+.homePath b{
+  display:block;
+  margin-bottom:6px;
+}
+
+.homePath.green{
+  background:#dce8d9;
+}
+
+.homePath.blue{
+  background:#dce7ed;
+}
+
+.homePath.orange{
+  background:#f0dfcf;
+}
+
+@media(max-width:520px){
+  .homePaths{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
 
@@ -389,84 +553,164 @@ function home() {
     .filter(x => state.chosen.includes(x[0]))
     .slice(0,3);
 
+  const visibleInterests = state.chosen.length
+    ? state.chosen
+    : ['Questioning','Learning','Creating'];
+
+  const mainQuestion = relevant.length
+    ? relevant[0]
+    : seed[0];
+
+  const extraThoughts = relevant.slice(1,3);
+
   shell(`
-    <h1>What are you curious about today?</h1>
+    <div class="homeIntro">
+      <div class="homeEyebrow">YOUR LITTLE CORNER</div>
 
-    <p class="muted">
-      Pick a path. There's no endless feed waiting underneath.
-    </p>
+      <h1 class="homeTitle">
+        What's on your mind?
+      </h1>
 
-    <div class="card">
-      <div class="row">
-        <div>
-          <b>💬 Convo</b>
-          <div class="muted">
-            Find a question people are exploring together.
-          </div>
-        </div>
-
-        <button class="primary" onclick="go('convo')">
-          Open
-        </button>
-      </div>
+      <p class="muted">
+        A small reflection of the things you care about.
+      </p>
     </div>
 
-    <div class="card">
-      <div class="row">
-        <div>
-          <b>🔎 Discover</b>
-          <div class="muted">
-            See a small set of posts around your interests.
-          </div>
+    <div class="interestWorld">
+      ${visibleInterests.map(x => `
+        <div class="interest">
+          ${escapeHtml(x)}
         </div>
-
-        <button class="ghost" onclick="go('discover')">
-          Open
-        </button>
-      </div>
+      `).join('')}
     </div>
 
-    ${
-      relevant.length
-        ? `
-          <h3>Your common ground</h3>
+    <div class="mirrorQuestion">
+      <div class="mirrorLabel">
+        Something from your world
+      </div>
 
-          ${relevant.map(x => `
-            <div class="card">
-              <div class="count">${x[0]}</div>
+      <div class="question">
+        ${escapeHtml(mainQuestion[1])}
+      </div>
 
-              <div class="question">
-                ${x[1]}
+      <button
+        class="ghost"
+        onclick="startConvo('${encodeURIComponent(mainQuestion[1])}')">
+        Explore this →
+      </button>
+    </div>
+
+    <div class="worldHeading">
+      <h3>Your world</h3>
+      <span>a few things</span>
+    </div>
+
+    <div class="card soft">
+
+      ${
+        extraThoughts.length
+        ? extraThoughts.map((x,i) => `
+          <div class="smallThought">
+
+            <div class="thoughtDot"
+              style="background:${i === 0 ? '#dce7ed' : '#e5ddec'}">
+              ${i === 0 ? '💭' : '✦'}
+            </div>
+
+            <div>
+              <div class="thoughtText">
+                ${escapeHtml(x[1])}
               </div>
 
-              <button
-                class="ghost"
-                style="margin-top:13px"
-                onclick="startConvo('${encodeURIComponent(x[1])}')"
-              >
-                Question this together
-              </button>
+              <div class="thoughtMeta">
+                ${escapeHtml(x[0])}
+              </div>
             </div>
-          `).join('')}
-        `
+
+          </div>
+        `).join('')
         : `
-          <div class="card">
-            <b>Choose a few interests</b>
-            <p class="muted">
-              We'll use them to surface conversations that could feel relevant.
-            </p>
+          <div class="smallThought">
+            <div class="thoughtDot" style="background:#dce8d9">
+              🌱
+            </div>
+
+            <div>
+              <div class="thoughtText">
+                Your world will grow as you explore Povi.
+              </div>
+
+              <div class="thoughtMeta">
+                Start with a question.
+              </div>
+            </div>
           </div>
         `
-    }
+      }
 
-    <div class="card" style="text-align:center">
-      <b>You're all caught up.</b>
-      <p class="muted">
-        Do something. 🌱
-      </p>
+    </div>
+
+    <div class="homePaths">
+
+      <div class="homePath green">
+        <b>◌ Convo</b>
+        <span class="muted">
+          Meet around an idea.
+        </span>
+
+        <button
+          class="ghost"
+          style="margin-top:13px"
+          onclick="go('convo')">
+          Go →
+        </button>
+      </div>
+
+      <div class="homePath blue">
+        <b>⌕ Discover</b>
+        <span class="muted">
+          Look around your world.
+        </span>
+
+        <button
+          class="ghost"
+          style="margin-top:13px"
+          onclick="go('discover')">
+          Look →
+        </button>
+      </div>
+
+    </div>
+
+    <div class="homePath orange" style="margin-top:12px">
+
+      <b>＋ Create</b>
+
+      <span class="muted">
+        Leave something behind.
+      </span>
+
+      <button
+        class="ghost"
+        style="margin-top:13px"
+        onclick="go('create')">
+        Make something →
+      </button>
+
+    </div>
+
+    <div style="text-align:center;margin:35px 0 10px">
+      <div class="muted small">
+        That's enough for now.
+      </div>
+
+      <div style="font-size:22px;margin-top:5px">
+        🌱
+      </div>
     </div>
   `);
 }
+
 
 function convo() {
   const relevant = seed.filter(x =>

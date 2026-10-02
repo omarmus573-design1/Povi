@@ -383,6 +383,23 @@ select.input{
     grid-template-columns:1fr;
   }
 }
+  .homeInterest{
+  cursor:pointer;
+  transition:.15s;
+}
+
+.homeInterest:hover{
+  transform:translateY(-2px);
+}
+
+.homeQuestion{
+  cursor:pointer;
+  transition:.15s;
+}
+
+.homeQuestion:hover{
+  transform:translateY(-2px);
+}
 </style>
 </head>
 
@@ -553,69 +570,50 @@ function home() {
     .filter(x => state.chosen.includes(x[0]))
     .slice(0,3);
 
-  const visibleInterests = state.chosen.length
-    ? state.chosen
-    : ['Questioning','Learning','Creating'];
-
-  const mainQuestion = relevant.length
-    ? relevant[0]
-    : seed[0];
-
-  const extraThoughts = relevant.slice(1,3);
+  const homeInterests = state.chosen.slice(0,6);
 
   shell(`
     <div class="homeIntro">
       <div class="homeEyebrow">YOUR LITTLE CORNER</div>
 
       <h1 class="homeTitle">
-        What's on your mind?
+        What are you curious about today?
       </h1>
 
       <p class="muted">
-        A small reflection of the things you care about.
+        A small reflection of what you're into, learning, and thinking about.
       </p>
     </div>
 
-    <div class="interestWorld">
-      ${visibleInterests.map(x => `
-        <div class="interest">
-          ${escapeHtml(x)}
-        </div>
-      `).join('')}
-    </div>
+    ${
+      homeInterests.length
+        ? `
+          <h3>Your interests</h3>
 
-    <div class="mirrorQuestion">
-      <div class="mirrorLabel">
-        Something from your world
-      </div>
+          <div class="interestWorld">
+            ${homeInterests.map(x => `
+              <button
+                class="interest homeInterest"
+                onclick="interestPage('${encodeURIComponent(x)}')"
+              >
+                ${escapeHtml(x)}
+              </button>
+            `).join('')}
+          </div>
+        `
+        : ''
+    }
 
-      <div class="question">
-        ${escapeHtml(mainQuestion[1])}
-      </div>
+    <h3>Your world</h3>
 
-      <button
-        class="ghost"
-        onclick="startConvo('${encodeURIComponent(mainQuestion[1])}')">
-        Explore this →
-      </button>
-    </div>
-
-    <div class="worldHeading">
-      <h3>Your world</h3>
-      <span>a few things</span>
-    </div>
-
-    <div class="card soft">
-
-      ${
-        extraThoughts.length
-        ? extraThoughts.map((x,i) => `
-          <div class="smallThought">
-
-            <div class="thoughtDot"
-              style="background:${i === 0 ? '#dce7ed' : '#e5ddec'}">
-              ${i === 0 ? '💭' : '✦'}
-            </div>
+    ${
+      relevant.length
+        ? relevant.map(x => `
+          <div
+            class="smallThought homeQuestion"
+            onclick="startConvo('${encodeURIComponent(x[1])}')"
+          >
+            <div class="thoughtDot"></div>
 
             <div>
               <div class="thoughtText">
@@ -623,95 +621,88 @@ function home() {
               </div>
 
               <div class="thoughtMeta">
-                ${escapeHtml(x[0])}
+                ${escapeHtml(x[0])} · explore together
               </div>
             </div>
-
           </div>
         `).join('')
         : `
           <div class="smallThought">
-            <div class="thoughtDot" style="background:#dce8d9">
-              🌱
-            </div>
-
-            <div>
-              <div class="thoughtText">
-                Your world will grow as you explore Povi.
-              </div>
-
-              <div class="thoughtMeta">
-                Start with a question.
-              </div>
+            <div class="thoughtText">
+              Choose some interests and your world will start taking shape.
             </div>
           </div>
         `
-      }
+    }
 
-    </div>
+    <div class="card" style="text-align:center;margin-top:42px">
+      <b>You're caught up.</b>
 
-    <div class="homePaths">
-
-      <div class="homePath green">
-        <b>◌ Convo</b>
-        <span class="muted">
-          Meet around an idea.
-        </span>
-
-        <button
-          class="ghost"
-          style="margin-top:13px"
-          onclick="go('convo')">
-          Go →
-        </button>
-      </div>
-
-      <div class="homePath blue">
-        <b>⌕ Discover</b>
-        <span class="muted">
-          Look around your world.
-        </span>
-
-        <button
-          class="ghost"
-          style="margin-top:13px"
-          onclick="go('discover')">
-          Look →
-        </button>
-      </div>
-
-    </div>
-
-    <div class="homePath orange" style="margin-top:12px">
-
-      <b>＋ Create</b>
-
-      <span class="muted">
-        Leave something behind.
-      </span>
-
-      <button
-        class="ghost"
-        style="margin-top:13px"
-        onclick="go('create')">
-        Make something →
-      </button>
-
-    </div>
-
-    <div style="text-align:center;margin:35px 0 10px">
-      <div class="muted small">
-        That's enough for now.
-      </div>
-
-      <div style="font-size:22px;margin-top:5px">
-        🌱
-      </div>
+      <p class="muted">
+        That's enough for now. 🌱
+      </p>
     </div>
   `);
 }
 
 
+
+function interestPage(interest) {
+  const value = decodeURIComponent(interest);
+
+  state.tab = 'discover';
+  renderInterest(value);
+}
+
+function renderInterest(interest) {
+  const posts = [
+    ...state.posts
+      .filter(p => p.interest === interest)
+      .map(p => [p.interest, p.text, 'You']),
+
+    ...seed.filter(x => x[0] === interest)
+  ];
+
+  shell(`
+    <h1>${escapeHtml(interest)}</h1>
+
+    <p class="muted">
+      A small window into this part of your world.
+    </p>
+
+    ${
+      posts.length
+        ? posts.map(x => `
+          <div class="card">
+            <div class="count">
+              ${escapeHtml(x[0])} · ${escapeHtml(x[2])}
+            </div>
+
+            <div class="post">
+              ${escapeHtml(x[1])}
+            </div>
+
+            <button
+              class="ghost"
+              style="margin-top:12px"
+              onclick="startConvo('${encodeURIComponent(x[1])}')"
+            >
+              Question this
+            </button>
+          </div>
+        `).join('')
+        : `
+          <div class="card">
+            <b>Nothing here yet.</b>
+
+            <p class="muted">
+              This could become a little corner for ${escapeHtml(interest)}.
+            </p>
+          </div>
+        `
+    }
+  `);
+}
 function convo() {
   const relevant = seed.filter(x =>
     state.chosen.includes(x[0])

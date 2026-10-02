@@ -5,43 +5,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Povi — Connection, not popularity</title>
 
+
 <style>
 :root{
-  --bg:#f3eadb;
-  --paper:#fffaf1;
-  --paper2:#f8f0e4;
-  --ink:#302923;
-  --muted:#756b61;
-  --line:#dfd1bf;
-
-  --green:#607c62;
-  --greenSoft:#dce7d7;
-
-  --yellow:#e8c979;
-  --yellowSoft:#f7e9b9;
-
-  --blue:#718aa1;
-  --blueSoft:#dce7ef;
-
-  --purple:#8a7898;
-  --purpleSoft:#e6ddea;
-
-  --orange:#c98c5b;
-  --orangeSoft:#f0dfcf;
+  --bg:#f4ecdf;
+  --card:#fffaf2;
+  --ink:#342d27;
+  --muted:#756a60;
+  --line:#ded1c1;
+  --accent:#6e5a46
 }
 
-*{
-  box-sizing:border-box
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  background:
-    radial-gradient(circle at 10% 5%,rgba(232,201,121,.22),transparent 24%),
-    radial-gradient(circle at 90% 20%,rgba(113,138,161,.14),transparent 25%),
-    var(--bg);
+  background:var(--bg);
   color:var(--ink);
-  font:16px system-ui,-apple-system,Segoe UI,sans-serif;
+  font:16px system-ui,-apple-system,Segoe UI,sans-serif
 }
 
 button,input,select{
@@ -56,272 +37,153 @@ button{
   max-width:760px;
   margin:auto;
   min-height:100vh;
-  padding:22px 22px 30px;
+  padding:24px
 }
 
 .brand{
-  font-weight:850;
-  font-size:29px;
-  letter-spacing:.5px;
-  color:var(--green);
+  font-weight:800;
+  font-size:28px;
+  letter-spacing:.5px
 }
 
 .tag{
   color:var(--muted);
-  margin-top:1px;
-  font-size:14px;
+  margin-top:2px
 }
 
 .screen{
-  padding:45px 0 105px;
+  padding:58px 0 100px
 }
 
 h1{
-  font-size:clamp(31px,7vw,48px);
-  line-height:1.06;
-  letter-spacing:-1.5px;
-  margin:0 0 14px;
+  font-size:clamp(30px,7vw,48px);
+  line-height:1.08;
+  letter-spacing:-1px;
+  margin:0 0 14px
 }
 
 h3{
-  margin:34px 0 12px;
+  margin:38px 0 12px
 }
 
 .hero{
-  font-size:clamp(39px,8vw,65px);
-  line-height:1;
-  letter-spacing:-3px;
-  margin:35px 0 20px;
+  font-size:clamp(38px,8vw,64px);
+  line-height:1.02;
+  letter-spacing:-2px;
+  margin:25px 0
 }
 
 .muted{
   color:var(--muted);
-  line-height:1.55;
+  line-height:1.55
 }
 
-/* ---------- GENERAL SURFACES ---------- */
-
+/* Cards are now quieter */
 .card{
-  background:var(--paper);
-  border:1px solid rgba(223,209,191,.8);
-  border-radius:25px;
-  padding:22px;
-  margin:14px 0;
-  box-shadow:0 7px 24px rgba(73,55,38,.055);
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--line);
+  border-radius:0;
+  padding:22px 4px;
+  margin:0
 }
 
-.card.soft{
-  background:var(--paper2);
-  box-shadow:none;
+/* Only important areas get a soft surface */
+.card:has(.row){
+  padding:24px 0
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:24px
+}
+
+.chip{
+  border:1px solid var(--line);
+  background:rgba(255,250,242,.45);
+  color:var(--ink);
+  border-radius:999px;
+  padding:10px 15px;
+  transition:.15s
+}
+
+.chip.on{
+  background:var(--ink);
+  color:white;
+  border-color:var(--ink)
+}
+
+.primary{
+  background:var(--ink);
+  color:#fff;
+  border:0;
+  border-radius:999px;
+  padding:13px 20px
+}
+
+.ghost{
+  background:transparent;
+  color:var(--ink);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:11px 17px
+}
+
+.primary:hover,
+.ghost:hover,
+.chip:hover{
+  transform:translateY(-1px)
 }
 
 .row{
   display:flex;
   justify-content:space-between;
   gap:20px;
-  align-items:center;
+  align-items:center
 }
-
-/* ---------- COLOURED AREAS ---------- */
-
-.feature{
-  border-radius:30px;
-  padding:27px;
-  margin:24px 0;
-  position:relative;
-  overflow:hidden;
-}
-
-.feature.green{
-  background:var(--greenSoft);
-}
-
-.feature.yellow{
-  background:var(--yellowSoft);
-}
-
-.feature.blue{
-  background:var(--blueSoft);
-}
-
-.feature.purple{
-  background:var(--purpleSoft);
-}
-
-.feature.orange{
-  background:var(--orangeSoft);
-}
-
-.feature::after{
-  content:"";
-  position:absolute;
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  right:-35px;
-  top:-40px;
-  background:rgba(255,255,255,.28);
-}
-
-.feature > *{
-  position:relative;
-  z-index:1;
-}
-
-.featureTitle{
-  font-size:23px;
-  font-weight:750;
-  margin-bottom:7px;
-}
-
-.emoji{
-  font-size:28px;
-  margin-bottom:14px;
-}
-
-/* ---------- CHIPS ---------- */
-
-.chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:9px;
-  margin-top:25px;
-}
-
-.chip{
-  border:1px solid var(--line);
-  background:var(--paper);
-  color:var(--ink);
-  border-radius:999px;
-  padding:10px 15px;
-  transition:.15s;
-}
-
-.chip:nth-child(4n+1){
-  background:var(--greenSoft);
-  border-color:#cbd9c7;
-}
-
-.chip:nth-child(4n+2){
-  background:var(--yellowSoft);
-  border-color:#ead99e;
-}
-
-.chip:nth-child(4n+3){
-  background:var(--blueSoft);
-  border-color:#cad9e3;
-}
-
-.chip:nth-child(4n){
-  background:var(--purpleSoft);
-  border-color:#d7c9df;
-}
-
-.chip.on{
-  background:var(--ink);
-  color:white;
-  border-color:var(--ink);
-}
-
-/* ---------- BUTTONS ---------- */
-
-.primary{
-  background:var(--green);
-  color:#fff;
-  border:0;
-  border-radius:999px;
-  padding:13px 20px;
-  transition:.15s;
-}
-
-.ghost{
-  background:rgba(255,250,241,.65);
-  color:var(--ink);
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:11px 17px;
-  transition:.15s;
-}
-
-.primary:hover,
-.ghost:hover,
-.chip:hover{
-  transform:translateY(-1px);
-}
-
-/* ---------- QUESTIONS ---------- */
 
 .question{
   font-size:23px;
   line-height:1.35;
-  margin:8px 0;
+  margin:8px 0
 }
 
-.questionCard{
-  background:var(--yellowSoft);
-  border:1px solid #ead99e;
-  border-radius:25px;
-  padding:22px;
-  margin:14px 0;
+.post{
+  white-space:pre-wrap;
+  line-height:1.6
 }
 
 .count{
   font-size:12px;
   color:var(--muted);
   text-transform:none;
-  letter-spacing:.5px;
-  font-weight:650;
+  letter-spacing:.3px
 }
-
-/* ---------- POSTS ---------- */
-
-.postCard{
-  background:var(--paper);
-  border:1px solid rgba(223,209,191,.8);
-  border-radius:25px;
-  padding:22px;
-  margin:14px 0;
-  box-shadow:0 7px 24px rgba(73,55,38,.045);
-}
-
-.post{
-  white-space:pre-wrap;
-  line-height:1.6;
-  margin-top:9px;
-}
-
-/* ---------- INPUTS ---------- */
 
 .input{
   width:100%;
   padding:15px;
   border:1px solid var(--line);
-  border-radius:17px;
-  background:rgba(255,250,241,.8);
+  border-radius:16px;
+  background:rgba(255,250,242,.65);
   color:var(--ink);
-  outline:none;
+  outline:none
 }
 
 .input:focus{
-  border-color:var(--green);
-  box-shadow:0 0 0 3px rgba(96,124,98,.12);
+  border-color:var(--accent)
 }
-
-select.input{
-  appearance:auto;
-}
-
-/* ---------- NAV ---------- */
 
 .nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  background:rgba(243,234,219,.91);
+  background:rgba(244,236,223,.92);
   border-top:1px solid var(--line);
-  backdrop-filter:blur(15px);
-  z-index:20;
+  backdrop-filter:blur(12px)
 }
 
 .navin{
@@ -329,47 +191,27 @@ select.input{
   margin:auto;
   display:flex;
   justify-content:space-around;
-  padding:9px 6px;
+  padding:9px
 }
 
 .nav button{
   border:0;
   background:transparent;
   color:var(--muted);
-  padding:8px 12px;
-  border-radius:14px;
+  padding:8px 12px
 }
 
 .nav button.active{
-  color:var(--green);
-  background:var(--greenSoft);
-  font-weight:750;
+  color:var(--ink);
+  font-weight:700
 }
 
 .small{
-  font-size:13px;
+  font-size:13px
 }
 
-@media(max-width:520px){
-  .app{
-    padding-left:17px;
-    padding-right:17px;
-  }
-
-  .screen{
-    padding-top:35px;
-  }
-
-  .feature{
-    padding:23px;
-    border-radius:25px;
-  }
-
-  .card,
-  .postCard,
-  .questionCard{
-    border-radius:22px;
-  }
+select.input{
+  appearance:auto
 }
 </style>
 </head>
@@ -421,6 +263,445 @@ const state = {
 
 function save() {
   try {
-    localStorage.setItem('poviInterests',JSON.stringify(state.chosen));
-    localStorage.setItem('poviPosts',JSON.stringify(state.posts));
-    localStorage.setItem('poviStarted',String
+    localStorage.setItem(
+      'poviInterests',
+      JSON.stringify(state.chosen)
+    );
+
+    localStorage.setItem(
+      'poviPosts',
+      JSON.stringify(state.posts)
+    );
+
+    localStorage.setItem(
+      'poviStarted',
+      String(state.started)
+    );
+  } catch {}
+}
+
+function shell(content) {
+  document.getElementById('app').innerHTML = `
+    <div class="app">
+      <div class="brand">povi</div>
+      <div class="tag">connection, not popularity.</div>
+
+      <main class="screen">
+        ${content}
+      </main>
+    </div>
+
+    ${
+      state.started
+        ? `
+        <div class="nav">
+          <div class="navin">
+            <button class="${state.tab === 'home' ? 'active' : ''}" onclick="go('home')">
+              ⌂ Home
+            </button>
+
+            <button class="${state.tab === 'convo' ? 'active' : ''}" onclick="go('convo')">
+              ◌ Convo
+            </button>
+
+            <button class="${state.tab === 'discover' ? 'active' : ''}" onclick="go('discover')">
+              ⌕ Discover
+            </button>
+
+            <button class="${state.tab === 'create' ? 'active' : ''}" onclick="go('create')">
+              ＋ Create
+            </button>
+          </div>
+        </div>
+        `
+        : ''
+    }
+  `;
+}
+
+function go(tab) {
+  state.tab = tab;
+  state.convo = null;
+  render();
+}
+
+function onboarding() {
+  shell(`
+    <div class="hero">
+      What are you curious about today?
+    </div>
+
+    <p class="muted">
+      Choose a few things. Povi uses them to help you find common ground—not to rank you.
+    </p>
+
+    <div class="chips">
+      ${interests.map(x => `
+        <button
+          class="chip ${state.chosen.includes(x) ? 'on' : ''}"
+          onclick="pick('${x}')"
+        >
+          ${x}
+        </button>
+      `).join('')}
+    </div>
+
+    <button
+      class="primary"
+      style="margin-top:22px"
+      onclick="start()"
+    >
+      Continue
+    </button>
+  `);
+}
+
+function pick(x) {
+  if (state.chosen.includes(x)) {
+    state.chosen = state.chosen.filter(y => y !== x);
+  } else {
+    state.chosen = [...state.chosen, x];
+  }
+
+  save();
+  onboarding();
+}
+
+function start() {
+  if (!state.chosen.length) {
+    alert('Choose at least one interest first.');
+    return;
+  }
+
+  state.started = true;
+  save();
+  go('home');
+}
+
+function home() {
+  const relevant = seed
+    .filter(x => state.chosen.includes(x[0]))
+    .slice(0,3);
+
+  shell(`
+    <h1>What are you curious about today?</h1>
+
+    <p class="muted">
+      Pick a path. There's no endless feed waiting underneath.
+    </p>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <b>💬 Convo</b>
+          <div class="muted">
+            Find a question people are exploring together.
+          </div>
+        </div>
+
+        <button class="primary" onclick="go('convo')">
+          Open
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <b>🔎 Discover</b>
+          <div class="muted">
+            See a small set of posts around your interests.
+          </div>
+        </div>
+
+        <button class="ghost" onclick="go('discover')">
+          Open
+        </button>
+      </div>
+    </div>
+
+    ${
+      relevant.length
+        ? `
+          <h3>Your common ground</h3>
+
+          ${relevant.map(x => `
+            <div class="card">
+              <div class="count">${x[0]}</div>
+
+              <div class="question">
+                ${x[1]}
+              </div>
+
+              <button
+                class="ghost"
+                style="margin-top:13px"
+                onclick="startConvo('${encodeURIComponent(x[1])}')"
+              >
+                Question this together
+              </button>
+            </div>
+          `).join('')}
+        `
+        : `
+          <div class="card">
+            <b>Choose a few interests</b>
+            <p class="muted">
+              We'll use them to surface conversations that could feel relevant.
+            </p>
+          </div>
+        `
+    }
+
+    <div class="card" style="text-align:center">
+      <b>You're all caught up.</b>
+      <p class="muted">
+        Do something. 🌱
+      </p>
+    </div>
+  `);
+}
+
+function convo() {
+  const relevant = seed.filter(x =>
+    state.chosen.includes(x[0])
+  );
+
+  const questions = relevant.length
+    ? relevant
+    : seed.slice(0,3);
+
+  shell(`
+    <h1>Convo</h1>
+
+    <p class="muted">
+      Common ground first. Conversation second.
+    </p>
+
+    ${questions.map(x => `
+      <div class="card">
+        <div class="count">${x[0]}</div>
+
+        <div class="question">
+          ${x[1]}
+        </div>
+
+        <button
+          class="primary"
+          style="margin-top:14px"
+          onclick="startConvo('${encodeURIComponent(x[1])}')"
+        >
+          Join
+        </button>
+      </div>
+    `).join('')}
+  `);
+}
+
+function startConvo(q) {
+  state.convo = decodeURIComponent(q);
+  renderConversation();
+}
+
+function renderConversation() {
+  shell(`
+    <h1>Let's question it.</h1>
+
+    <div class="card">
+      <div class="question">
+        ${escapeHtml(state.convo)}
+      </div>
+
+      <p class="muted small">
+        This prototype simulates a shared conversation.
+        In the real Povi, people who choose the same conversation would meet here.
+      </p>
+
+      <div id="msgs">
+        <div class="card">
+          <b>Povi</b>
+
+          <p class="post">
+            You don't have to know the answer. That's the point.
+          </p>
+        </div>
+      </div>
+
+      <input
+        id="msg"
+        class="input"
+        placeholder="Say what you think…"
+      >
+
+      <button
+        class="primary"
+        style="margin-top:10px"
+        onclick="send()"
+      >
+        Send
+      </button>
+
+      <button
+        class="ghost"
+        style="margin:10px 0 0 8px"
+        onclick="finish()"
+      >
+        I'm done
+      </button>
+    </div>
+  `);
+}
+
+function send() {
+  const input = document.getElementById('msg');
+
+  if (!input) return;
+
+  const value = input.value.trim();
+
+  if (!value) return;
+
+  document.getElementById('msgs').innerHTML += `
+    <div class="card">
+      <b>You</b>
+      <p class="post">${escapeHtml(value)}</p>
+    </div>
+  `;
+
+  input.value = '';
+}
+
+function finish() {
+  state.convo = null;
+  go('home');
+}
+
+function discover() {
+  const posts = [
+    ...state.posts.map(p => [p.interest, p.text, 'You']),
+    ...seed
+  ];
+
+  shell(`
+    <h1>Discover</h1>
+
+    <p class="muted">
+      A small window into what people are thinking—not a popularity scoreboard.
+    </p>
+
+    ${posts.slice(0,6).map(x => `
+      <div class="card">
+        <div class="count">
+          ${escapeHtml(x[0])} · ${escapeHtml(x[2])}
+        </div>
+
+        <div class="post">
+          ${escapeHtml(x[1])}
+        </div>
+
+        <button
+          class="ghost"
+          style="margin-top:12px"
+          onclick="startConvo('${encodeURIComponent(x[1])}')"
+        >
+          Question this
+        </button>
+      </div>
+    `).join('')}
+
+    <div class="card" style="text-align:center">
+      <b>That's enough for now.</b>
+
+      <p class="muted">
+        You're all caught up. Do something.
+      </p>
+    </div>
+  `);
+}
+
+function create() {
+  shell(`
+    <h1>Create something.</h1>
+
+    <p class="muted">
+      Share a thought, question, or small thing you made.
+    </p>
+
+    <div class="card">
+      <input
+        id="pt"
+        class="input"
+        placeholder="What's on your mind?"
+      >
+
+      <div style="height:10px"></div>
+
+      <select id="pi" class="input">
+        ${interests.map(x => `
+          <option>${x}</option>
+        `).join('')}
+      </select>
+
+      <button
+        class="primary"
+        style="margin-top:12px"
+        onclick="post()"
+      >
+        Post
+      </button>
+    </div>
+  `);
+}
+
+function post() {
+  const input = document.getElementById('pt');
+  const select = document.getElementById('pi');
+
+  if (!input || !select) return;
+
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  state.posts.unshift({
+    text: text,
+    interest: select.value
+  });
+
+  save();
+  go('discover');
+}
+
+function escapeHtml(value) {
+  return String(value).replace(
+    /[&<>"']/g,
+    char => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#039;'
+    }[char])
+  );
+}
+
+function render() {
+  if (!state.started) {
+    onboarding();
+    return;
+  }
+
+  const screens = {
+    home,
+    convo,
+    discover,
+    create
+  };
+
+  (screens[state.tab] || home)();
+}
+
+render();
+</script>
+</body>
+</html>

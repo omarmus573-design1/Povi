@@ -476,6 +476,86 @@ select.input{
   padding:0;
   margin-bottom:25px;
   }
+  .convoIntro{
+  margin-bottom:38px;
+}
+
+.convoEyebrow{
+  font-size:11px;
+  letter-spacing:1.8px;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+.convoQuestion{
+  position:relative;
+  padding:25px 20px 24px;
+  margin:16px 0;
+  border:1px solid var(--line);
+  border-radius:26px;
+  cursor:pointer;
+  transition:.18s;
+  overflow:hidden;
+}
+
+.convoQuestion:nth-of-type(odd){
+  background:var(--green);
+}
+
+.convoQuestion:nth-of-type(even){
+  background:var(--yellow);
+}
+
+.convoQuestion:hover{
+  transform:translateY(-3px) rotate(-.2deg);
+}
+
+.convoQuestion:nth-of-type(3n){
+  background:var(--blue);
+}
+
+.convoStar{
+  display:inline-block;
+  font-size:25px;
+  margin-bottom:12px;
+}
+
+.convoText{
+  display:block;
+  font-size:22px;
+  line-height:1.4;
+  letter-spacing:-.3px;
+}
+
+.convoMeta{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:14px;
+}
+
+.convoArrow{
+  margin-top:17px;
+  font-size:14px;
+  font-weight:600;
+  color:var(--ink);
+}
+
+.convoHint{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.convoQuestion::after{
+  content:"";
+  position:absolute;
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  right:-28px;
+  top:-28px;
+  background:rgba(255,255,255,.28);
+  }
 </style>
 </head>
 
@@ -790,33 +870,37 @@ function convo() {
 
   shell(`
     <div class="convoIntro">
-      <div class="convoEyebrow">CONVO</div>
+      <div class="convoEyebrow">A LITTLE CORNER FOR CURIOSITY</div>
 
       <h1>Think about it together.</h1>
 
       <p class="muted">
-        People don't have to agree. They just have to be curious.
+        You don't need the same answer.
+        Just start with the same question.
       </p>
     </div>
 
-    ${questions.map(x => `
+    ${questions.map((x, i) => `
       <div
         class="convoQuestion"
         onclick="startConvo('${encodeURIComponent(x[1])}')"
       >
-        <div>
-          <span class="convoStar">☆</span>
-          <span class="convoText">
-            ${escapeHtml(x[1])}
-          </span>
+        <div class="convoStar">☆</div>
+
+        <div class="convoText">
+          ${escapeHtml(x[1])}
         </div>
 
         <div class="convoMeta">
           ${escapeHtml(x[0])}
         </div>
 
+        <div class="convoHint">
+          Someone wondered about this.
+        </div>
+
         <div class="convoArrow">
-          Think about it →
+          Step inside →
         </div>
       </div>
     `).join('')}

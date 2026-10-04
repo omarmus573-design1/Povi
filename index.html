@@ -400,6 +400,82 @@ select.input{
 .homeQuestion:hover{
   transform:translateY(-2px);
 }
+  .convoIntro{
+  margin-bottom:34px;
+}
+
+.convoEyebrow{
+  font-size:12px;
+  letter-spacing:1.5px;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+
+.convoQuestion{
+  cursor:pointer;
+  padding:22px 4px;
+  border-bottom:1px solid var(--line);
+  transition:.15s;
+}
+
+.convoQuestion:hover{
+  transform:translateX(3px);
+}
+
+.convoStar{
+  font-size:22px;
+  margin-right:8px;
+}
+
+.convoText{
+  font-size:21px;
+  line-height:1.4;
+}
+
+.convoMeta{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:9px;
+}
+
+.convoArrow{
+  margin-top:12px;
+  color:var(--accent);
+  font-size:14px;
+}
+
+.convoRoom{
+  max-width:680px;
+}
+
+.roomQuestion{
+  font-size:25px;
+  line-height:1.4;
+  margin:18px 0 12px;
+}
+
+.roomPrompt{
+  color:var(--muted);
+  line-height:1.55;
+  margin-bottom:24px;
+}
+
+.messageArea{
+  margin-top:28px;
+}
+
+.messageArea textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.backLink{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:0;
+  margin-bottom:25px;
+  }
 </style>
 </head>
 
@@ -713,31 +789,39 @@ function convo() {
     : seed.slice(0,3);
 
   shell(`
-    <h1>Convo</h1>
+    <div class="convoIntro">
+      <div class="convoEyebrow">CONVO</div>
 
-    <p class="muted">
-      Common ground first. Conversation second.
-    </p>
+      <h1>Think about it together.</h1>
+
+      <p class="muted">
+        People don't have to agree. They just have to be curious.
+      </p>
+    </div>
 
     ${questions.map(x => `
-      <div class="card">
-        <div class="count">${x[0]}</div>
-
-        <div class="question">
-          ${x[1]}
+      <div
+        class="convoQuestion"
+        onclick="startConvo('${encodeURIComponent(x[1])}')"
+      >
+        <div>
+          <span class="convoStar">☆</span>
+          <span class="convoText">
+            ${escapeHtml(x[1])}
+          </span>
         </div>
 
-        <button
-          class="primary"
-          style="margin-top:14px"
-          onclick="startConvo('${encodeURIComponent(x[1])}')"
-        >
-          Join
-        </button>
+        <div class="convoMeta">
+          ${escapeHtml(x[0])}
+        </div>
+
+        <div class="convoArrow">
+          Think about it →
+        </div>
       </div>
     `).join('')}
   `);
-}
+  }
 
 function startConvo(q) {
   state.convo = decodeURIComponent(q);
@@ -746,19 +830,27 @@ function startConvo(q) {
 
 function renderConversation() {
   shell(`
-    <h1>Let's question it.</h1>
+    <div class="convoRoom">
 
-    <div class="card">
-      <div class="question">
-        ${escapeHtml(state.convo)}
+      <button class="backLink" onclick="go('convo')">
+        ← Back to Convo
+      </button>
+
+      <div class="convoEyebrow">
+        A QUESTION TO EXPLORE
       </div>
 
-      <p class="muted small">
-        This prototype simulates a shared conversation.
-        In the real Povi, people who choose the same conversation would meet here.
+      <div class="roomQuestion">
+        ☆ ${escapeHtml(state.convo)}
+      </div>
+
+      <p class="roomPrompt">
+        You don't need an answer.
+        Just say what you're thinking.
       </p>
 
       <div id="msgs">
+
         <div class="card">
           <b>Povi</b>
 
@@ -766,32 +858,38 @@ function renderConversation() {
             You don't have to know the answer. That's the point.
           </p>
         </div>
+
       </div>
 
-      <input
-        id="msg"
-        class="input"
-        placeholder="Say what you think…"
-      >
+      <div class="messageArea">
 
-      <button
-        class="primary"
-        style="margin-top:10px"
-        onclick="send()"
-      >
-        Send
-      </button>
+        <textarea
+          id="msg"
+          class="input"
+          placeholder="What do you think?"
+        ></textarea>
 
-      <button
-        class="ghost"
-        style="margin:10px 0 0 8px"
-        onclick="finish()"
-      >
-        I'm done
-      </button>
+        <button
+          class="primary"
+          style="margin-top:10px"
+          onclick="send()"
+        >
+          Share thought
+        </button>
+
+        <button
+          class="ghost"
+          style="margin:10px 0 0 8px"
+          onclick="finish()"
+        >
+          Leave
+        </button>
+
+      </div>
+
     </div>
   `);
-}
+  }
 
 function send() {
   const input = document.getElementById('msg');

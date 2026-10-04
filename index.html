@@ -556,6 +556,57 @@ select.input{
   top:-28px;
   background:rgba(255,255,255,.28);
   }
+  .discoverIntro{
+  margin-bottom:36px;
+}
+
+.discoverEyebrow{
+  font-size:11px;
+  letter-spacing:1.8px;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+.discoverPost{
+  position:relative;
+  padding:24px 20px;
+  margin:16px 0;
+  border-radius:26px;
+  border:1px solid var(--line);
+  overflow:hidden;
+}
+
+.discoverPost:nth-of-type(odd){
+  background:var(--purple);
+}
+
+.discoverPost:nth-of-type(even){
+  background:var(--blue);
+}
+
+.discoverPost:nth-of-type(3n){
+  background:var(--orange);
+}
+
+.discoverPostText{
+  font-size:20px;
+  line-height:1.5;
+}
+
+.discoverMeta{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:13px;
+}
+
+.discoverAction{
+  margin-top:16px;
+}
+
+.discoverEnd{
+  text-align:center;
+  padding:45px 10px 10px;
+    }
 </style>
 </head>
 
@@ -1006,41 +1057,48 @@ function discover() {
   ];
 
   shell(`
-    <h1>Discover</h1>
+    <div class="discoverIntro">
+      <div class="discoverEyebrow">A SMALL WINDOW</div>
 
-    <p class="muted">
-      A small window into what people are thinking—not a popularity scoreboard.
-    </p>
+      <h1>Discover.</h1>
 
-    ${posts.slice(0,6).map(x => `
-      <div class="card">
-        <div class="count">
-          ${escapeHtml(x[0])} · ${escapeHtml(x[2])}
+      <p class="muted">
+        Little pieces of what people are thinking, learning, and making.
+      </p>
+    </div>
+
+    ${posts.slice(0,6).map((x, i) => `
+      <div class="discoverPost">
+
+        <div class="discoverPostText">
+          ☆ ${escapeHtml(x[1])}
         </div>
 
-        <div class="post">
-          ${escapeHtml(x[1])}
+        <div class="discoverMeta">
+          ${escapeHtml(x[0])}
         </div>
 
-        <button
-          class="ghost"
-          style="margin-top:12px"
-          onclick="startConvo('${encodeURIComponent(x[1])}')"
-        >
-          Question this
-        </button>
+        <div class="discoverAction">
+          <button
+            class="ghost"
+            onclick="startConvo('${encodeURIComponent(x[1])}')"
+          >
+            Question this →
+          </button>
+        </div>
+
       </div>
     `).join('')}
 
-    <div class="card" style="text-align:center">
+    <div class="discoverEnd">
       <b>That's enough for now.</b>
 
       <p class="muted">
-        You're all caught up. Do something.
+        Go look at the actual world. 🌱
       </p>
     </div>
   `);
-}
+  }
 
 function create() {
   shell(`

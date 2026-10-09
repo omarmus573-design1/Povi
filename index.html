@@ -607,6 +607,125 @@ select.input{
   text-align:center;
   padding:45px 10px 10px;
     }
+  
+/* Discover: a little gallery of thoughts */
+.discoverIntro{
+  margin-bottom:30px;
+}
+
+.discoverEyebrow{
+  font-size:11px;
+  letter-spacing:1.8px;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+.discoverGallery{
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+.discoverPiece{
+  position:relative;
+  border-radius:24px;
+  padding:23px;
+  overflow:hidden;
+  border:1px solid rgba(80,65,50,.08);
+}
+
+.discoverPiece.piece-0{
+  background:var(--yellow);
+  padding:29px 25px;
+  border-radius:30px 30px 12px 30px;
+}
+
+.discoverPiece.piece-1{
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--line);
+  border-radius:0;
+  padding:21px 8px;
+}
+
+.discoverPiece.piece-2{
+  background:var(--green);
+  margin-left:18px;
+  border-radius:12px 28px 28px 28px;
+}
+
+.discoverPiece.piece-3{
+  background:var(--blue);
+  margin-right:18px;
+  border-radius:28px 12px 28px 28px;
+}
+
+.discoverPiece.piece-4{
+  background:var(--purple);
+  border-radius:28px 28px 28px 12px;
+}
+
+.discoverPiece.piece-5{
+  background:var(--orange);
+  margin-left:10px;
+  border-radius:28px 12px 28px 28px;
+}
+
+.discoverSymbol{
+  font-size:22px;
+  margin-bottom:13px;
+  color:var(--accent);
+}
+
+.discoverPostText{
+  font-size:20px;
+  line-height:1.48;
+  letter-spacing:-.25px;
+  overflow-wrap:anywhere;
+}
+
+.piece-0 .discoverPostText{
+  font-size:25px;
+  line-height:1.38;
+}
+
+.discoverMeta{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:15px;
+}
+
+.discoverAction{
+  margin-top:15px;
+}
+
+.discoverAction button{
+  font-size:13px;
+}
+
+.discoverEnd{
+  text-align:center;
+  padding:40px 10px 15px;
+}
+
+@media(max-width:480px){
+  .discoverPiece{
+    padding:20px;
+  }
+
+  .discoverPiece.piece-0{
+    padding:25px 21px;
+  }
+
+  .discoverPiece.piece-2{
+    margin-left:10px;
+  }
+
+  .discoverPiece.piece-3{
+    margin-right:10px;
+  }
+}
+
 </style>
 </head>
 

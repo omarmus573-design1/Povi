@@ -772,6 +772,12 @@ const state = {
   started: localStorage.getItem('poviStarted') === 'true',
   convo: null,
   posts: getStored('poviPosts', [])
+  profile: getStored('poviProfile', {
+  name: '',
+  bio: '',
+  learning: '',
+  projects: ''
+}),
 };
 
 function save() {
@@ -824,6 +830,11 @@ function shell(content) {
             <button class="${state.tab === 'create' ? 'active' : ''}" onclick="go('create')">
               ＋ Create
             </button>
+          
+            <button class="${state.tab === 'profile' ? 'active' : ''}" onclick="go('profile')">
+              ○ Profile
+            </button>
+
           </div>
         </div>
         `

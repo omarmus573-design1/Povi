@@ -1169,55 +1169,60 @@ function finish() {
   go('home');
 }
 
+
 function discover() {
   const posts = [
     ...state.posts.map(p => [p.interest, p.text, 'You']),
     ...seed
-  ];
+  ].slice(0, 6);
 
   shell(`
     <div class="discoverIntro">
-      <div class="discoverEyebrow">A SMALL WINDOW</div>
+      <div class="discoverEyebrow">A WINDOW INTO OTHER WORLDS</div>
 
-      <h1>Discover.</h1>
+      <h1>Look around.</h1>
 
       <p class="muted">
-        Little pieces of what people are thinking, learning, and making.
+        Questions, little discoveries, and things worth thinking about.
+        Take what interests you. Leave the rest.
       </p>
     </div>
 
-    ${posts.slice(0,6).map((x, i) => `
-      <div class="discoverPost">
+    <div class="discoverGallery">
+      ${posts.map((x, i) => `
+        <div class="discoverPiece piece-${i % 6}">
+          <div class="discoverSymbol">☆</div>
 
-        <div class="discoverPostText">
-          ☆ ${escapeHtml(x[1])}
+          <div class="discoverPostText">
+            ${escapeHtml(x[1])}
+          </div>
+
+          <div class="discoverMeta">
+            ${escapeHtml(x[0])} · ${x[2] === 'You' ? 'Your post' : 'Povi prompt'}
+          </div>
+
+          <div class="discoverAction">
+            <button
+              class="ghost"
+              onclick="startConvo('${encodeURIComponent(x[1])}')"
+            >
+              Explore this thought →
+            </button>
+          </div>
         </div>
-
-        <div class="discoverMeta">
-          ${escapeHtml(x[0])}
-        </div>
-
-        <div class="discoverAction">
-          <button
-            class="ghost"
-            onclick="startConvo('${encodeURIComponent(x[1])}')"
-          >
-            Question this →
-          </button>
-        </div>
-
-      </div>
-    `).join('')}
+      `).join('')}
+    </div>
 
     <div class="discoverEnd">
-      <b>That's enough for now.</b>
+      <b>You've seen this little corner.</b>
 
       <p class="muted">
-        Go look at the actual world. 🌱
+        There's a world beyond the screen, too. 🌱
       </p>
     </div>
   `);
-  }
+}
+
 
 function create() {
   shell(`

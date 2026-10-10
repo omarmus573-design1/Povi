@@ -726,6 +726,95 @@ select.input{
   }
 }
 
+/* Profile — an editorial personal space */
+.profileHeader{
+  padding:28px 0 30px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:28px;
+}
+
+.profileEyebrow{
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:1.7px;
+  margin-bottom:16px;
+}
+
+.profileName{
+  font-size:clamp(38px,9vw,58px);
+  line-height:1.05;
+  letter-spacing:-2px;
+  overflow-wrap:anywhere;
+}
+
+.profileBio{
+  max-width:440px;
+  color:var(--muted);
+  line-height:1.65;
+  margin-top:15px;
+  white-space:pre-wrap;
+}
+
+.profileSection{
+  padding:22px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.profileSection h3{
+  margin:0 0 12px;
+}
+
+.profileSection p{
+  white-space:pre-wrap;
+  line-height:1.65;
+}
+
+.profileEdit{
+  display:grid;
+  gap:12px;
+  margin-top:22px;
+}
+
+.profileEdit label{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.profileEdit input,
+.profileEdit textarea{
+  display:block;
+  width:100%;
+  margin-top:6px;
+  padding:13px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--card);
+  color:var(--ink);
+  font:inherit;
+}
+
+.profileEdit textarea{
+  min-height:85px;
+  resize:vertical;
+}
+
+.profileInterests{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.profileInterest{
+  background:var(--green);
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:13px;
+}
+
+  .convoStar,
+.discoverSymbol{
+  display:none;
+  }
 </style>
 </head>
 
@@ -796,6 +885,11 @@ function save() {
       'poviStarted',
       String(state.started)
     );
+
+    localStorage.setItem(
+  'poviProfile',
+  JSON.stringify(state.profile)
+);
   } catch {}
 }
 
@@ -1235,6 +1329,124 @@ function discover() {
 }
 
 
+function profile() {
+  const p = state.profile;
+
+  shell(`
+    <div class="profileHeader">
+      <div class="profileEyebrow">A LITTLE ABOUT ME</div>
+
+      <div class="profileName">
+        ${escapeHtml(p.name || 'Your name here')}
+      </div>
+
+      <div class="profileBio">
+        ${escapeHtml(p.bio || 'A few words about who you are and what matters to you.')}
+      </div>
+
+      <button class="ghost" style="margin-top:18px"
+        onclick="editProfile()">
+        Edit profile
+      </button>
+    </div>
+
+    <div class="profileSection">
+      <h3>I'm curious about</h3>
+
+      <div class="profileInterests">
+        ${state.chosen.map((x, i) => `
+          <span class="profileInterest">
+            ${escapeHtml(x)}
+          </span>
+        `).join('') || '<p class="muted">Your interests will appear here.</p>'}
+      </div>
+    </div>
+
+    <div class="profileSection">
+      <h3>What I'm learning</h3>
+      <p>${escapeHtml(p.learning || 'A language, a skill, a new idea…')}</p>
+    </div>
+
+    <div class="profileSection">
+      <h3>Things I'm exploring</h3>
+      <p>${escapeHtml(p.projects || 'Projects, experiments, and things you want to make.')}</p>
+    </div>
+
+    <div class="profileSection">
+      <h3>Things I've shared</h3>
+      ${
+        state.posts.length
+          ? state.posts.map(post => `
+              <p>
+                <b>${escapeHtml(post.interest)}</b><br>
+                ${escapeHtml(post.text)}
+              </p>
+            `).join('')
+          : '<p class="muted">Your posts will find a home here.</p>'
+      }
+    </div>
+  `);
+}
+
+function editProfile() {
+  const p = state.profile;
+
+  shell(`
+    <button class="backLink" onclick="go('profile')">
+      ← Back to profile
+    </button>
+
+    <h1>A little about you.</h1>
+
+    <p class="muted">
+      This isn't a popularity page. Just a place to show what makes you, you.
+    </p>
+
+    <div class="profileEdit">
+      <label>
+        Name
+        <input id="profileName" maxlength="60"
+          value="${escapeHtml(p.name)}"
+          placeholder="What should people call you?">
+      </label>
+
+      <label>
+        A little introduction
+        <textarea id="profileBio" maxlength="300"
+          placeholder="What would you like people to know?">${escapeHtml(p.bio)}</textarea>
+      </label>
+
+      <label>
+        What are you learning?
+        <textarea id="profileLearning" maxlength="300"
+          placeholder="Languages, skills, ideas…">${escapeHtml(p.learning)}</textarea>
+      </label>
+
+      <label>
+        What are you exploring or making?
+        <textarea id="profileProjects" maxlength="400"
+          placeholder="A project, a question, a little experiment…">${escapeHtml(p.projects)}</textarea>
+      </label>
+
+      <button class="primary" onclick="saveProfile()">
+        Save profile
+      </button>
+    </div>
+  `);
+}
+
+function saveProfile() {
+  state.profile = {
+    name: document.getElementById('profileName').value.trim(),
+    bio: document.getElementById('profileBio').value.trim(),
+    learning: document.getElementById('profileLearning').value.trim(),
+    projects: document.getElementById('profileProjects').value.trim()
+  };
+
+  save();
+  go('profile');
+}
+
 function create() {
   shell(`
     <h1>Create something.</h1>
@@ -1311,7 +1523,8 @@ function render() {
     home,
     convo,
     discover,
-    create
+    create,
+    profile 
   };
 
   (screens[state.tab] || home)();

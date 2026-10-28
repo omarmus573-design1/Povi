@@ -40,7 +40,7 @@ button{
 }
 
 .app{
-  max-width:760px;
+  max-width:1000px;
   margin:auto;
   min-height:100vh;
   padding:24px
@@ -193,7 +193,7 @@ h3{
 }
 
 .navin{
-  max-width:760px;
+  max-width:1000px;
   margin:auto;
   display:flex;
   justify-content:space-around;
@@ -957,9 +957,6 @@ function shell(content) {
               ⌕ Discover
             </button>
 
-            <button class="${state.tab === 'create' ? 'active' : ''}" onclick="go('create')">
-              ＋ Create
-            </button>
           
             <button class="${state.tab === 'profile' ? 'active' : ''}" onclick="go('profile')">
               ○ Profile

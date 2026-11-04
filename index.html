@@ -24,11 +24,11 @@
 
 *{box-sizing:border-box}
 
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
-  font:16px system-ui,-apple-system,Segoe UI,sans-serif
+body {
+  margin: 0;
+  background: #e9e0d4;
+  color: var(--ink);
+  font: 16px system-ui, -apple-system, Segoe UI, sans-serif;
 }
 
 button,input,select{
@@ -39,11 +39,14 @@ button{
   cursor:pointer
 }
 
-.app{
-  max-width:1000px;
-  margin:auto;
-  min-height:100vh;
-  padding:24px
+..app {
+  max-width: 1180px;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 28px 52px 60px;
+  background: var(--card);
+  box-shadow: 0 0 45px rgba(70, 55, 40, 0.04);
 }
 
 .brand{
@@ -932,43 +935,54 @@ function save() {
 function shell(content) {
   document.getElementById('app').innerHTML = `
     <div class="app">
-      <div class="brand">povi</div>
-      <div class="tag">connection, not popularity.</div>
+      <header class="siteHeader">
+        <button class="brandButton" onclick="go('home')" aria-label="Povi home">
+          <span class="brand">povi</span>
+          <span class="tag">connection, not popularity.</span>
+        </button>
+
+        ${
+          state.started
+            ? `
+              <button class="profileButton"
+                onclick="go('profile')"
+                aria-label="Open your profile"
+                title="Your profile">
+                <svg viewBox="0 0 24 24" width="23" height="23"
+                  fill="none" stroke="currentColor"
+                  stroke-width="1.7" stroke-linecap="round">
+                  <circle cx="12" cy="8" r="3.5"/>
+                  <path d="M5 20c.5-4 3-6 7-6s6.5 2 7 6"/>
+                </svg>
+              </button>
+            `
+            : ''
+        }
+      </header>
+
+      ${
+        state.started
+          ? `
+            <nav class="topNav" aria-label="Main navigation">
+              <button class="${state.tab === 'home' ? 'active' : ''}"
+                onclick="go('home')">Home</button>
+
+              <button class="${state.tab === 'convo' ? 'active' : ''}"
+                onclick="go('convo')">Convo</button>
+
+              <button class="${state.tab === 'discover' ? 'active' : ''}"
+                onclick="go('discover')">Discover</button>
+            </nav>
+          `
+          : ''
+      }
 
       <main class="screen">
         ${content}
       </main>
     </div>
-
-    ${
-      state.started
-        ? `
-        <div class="nav">
-          <div class="navin">
-            <button class="${state.tab === 'home' ? 'active' : ''}" onclick="go('home')">
-              ⌂ Home
-            </button>
-
-            <button class="${state.tab === 'convo' ? 'active' : ''}" onclick="go('convo')">
-              ◌ Convo
-            </button>
-
-            <button class="${state.tab === 'discover' ? 'active' : ''}" onclick="go('discover')">
-              ⌕ Discover
-            </button>
-
-          
-            <button class="${state.tab === 'profile' ? 'active' : ''}" onclick="go('profile')">
-              ○ Profile
-            </button>
-
-          </div>
-        </div>
-        `
-        : ''
-    }
   `;
-}
+  }
 
 function go(tab) {
   state.tab = tab;

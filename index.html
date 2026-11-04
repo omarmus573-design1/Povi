@@ -957,6 +957,29 @@ select.input{
     padding:22px 22px 100px;
   }
   }
+  /* Povi page frame — final layout override */
+body {
+  background: #e8dece !important;
+}
+
+#app > .app {
+  width: calc(100% - 64px) !important;
+  max-width: 1120px !important;
+  min-height: 100vh;
+  margin: 24px auto 0 !important;
+  padding: 32px 48px 110px !important;
+  background: #fffaf2 !important;
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 4px 35px rgba(52, 45, 39, 0.06);
+}
+
+@media (max-width: 700px) {
+  #app > .app {
+    width: calc(100% - 24px) !important;
+    margin-top: 12px !important;
+    padding: 24px 20px 100px !important;
+  }
+}
 </style>
 </head>
 

@@ -1074,18 +1074,25 @@ body {
   }
 }
   
-/* Home — editorial photography */
+/* Home — cinematic nature photography */
 
 .homeFeature {
-  margin: 30px 0 38px;
+  margin: 34px 0 42px;
 }
 
 .homeFeatureImage {
   display: block;
   width: 100%;
-  height: clamp(230px, 34vw, 360px);
+  height: clamp(280px, 42vw, 430px);
   object-fit: cover;
-  border-radius: 20px;
+  object-position: center 55%;
+  border-radius: 24px 24px 6px 24px;
+  box-shadow: 0 12px 32px rgba(52, 45, 39, 0.09);
+  transition: filter .3s ease;
+}
+
+.homeFeatureImage:hover {
+  filter: saturate(1.08);
 }
 
 .homeFeatureCaption {
@@ -1093,31 +1100,43 @@ body {
   align-items: baseline;
   justify-content: space-between;
   gap: 24px;
-  padding: 13px 2px 0;
+  padding: 16px 2px 0;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 17px;
 }
 
 .homeFeatureCaption span {
   flex-shrink: 0;
-  color: var(--muted);
+  color: var(--accent);
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+  font-weight: 750;
+  letter-spacing: 1.7px;
 }
 
 .homeFeatureCaption p {
   max-width: 430px;
   margin: 0;
+  color: var(--muted);
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 @media (max-width: 600px) {
+  .homeFeature {
+    margin: 28px 0 34px;
+  }
+
+  .homeFeatureImage {
+    height: 290px;
+    border-radius: 20px 20px 5px 20px;
+  }
+
   .homeFeatureCaption {
     display: block;
   }
 
   .homeFeatureCaption p {
-    margin-top: 7px;
+    margin-top: 9px;
   }
 }
 

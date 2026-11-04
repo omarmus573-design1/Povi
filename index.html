@@ -1073,6 +1073,54 @@ body {
     padding: 19px;
   }
 }
+  
+/* Home — editorial photography */
+
+.homeFeature {
+  margin: 30px 0 38px;
+}
+
+.homeFeatureImage {
+  display: block;
+  width: 100%;
+  height: clamp(230px, 34vw, 360px);
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.homeFeatureCaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 13px 2px 0;
+}
+
+.homeFeatureCaption span {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.homeFeatureCaption p {
+  max-width: 430px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .homeFeatureCaption {
+    display: block;
+  }
+
+  .homeFeatureCaption p {
+    margin-top: 7px;
+  }
+}
+
 
 </style>
 </head>
@@ -1282,6 +1330,19 @@ function home() {
         A small reflection of what you're into, learning, and thinking about.
       </p>
     </div>
+
+<div class="homeFeature">
+  <img
+    class="homeFeatureImage"
+    src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=85"
+    alt="A peaceful mountain landscape reflected in a lake"
+  >
+
+  <div class="homeFeatureCaption">
+    <span>A MOMENT TO PAUSE</span>
+    <p>Sometimes, looking closer is enough to discover something new.</p>
+  </div>
+</div>
 
     ${
       homeInterests.length

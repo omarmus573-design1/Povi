@@ -980,6 +980,100 @@ body {
     padding: 24px 20px 100px !important;
   }
 }
+  
+/* Povi — consistent editorial layout */
+
+.screen {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 46px 0 110px;
+}
+
+/* Consistent card proportions */
+.card {
+  padding: 22px;
+  margin: 16px 0;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(52, 45, 39, 0.035);
+}
+
+.card:has(.row) {
+  padding: 22px;
+}
+
+/* Home's featured question */
+.mirrorQuestion {
+  padding: 25px;
+  margin: 20px 0 30px;
+  border-radius: 22px;
+}
+
+/* Convo cards: matching shapes and spacing */
+.convoQuestion {
+  padding: 24px;
+  margin: 14px 0;
+  border-radius: 22px;
+  transform: none;
+}
+
+.convoQuestion:hover {
+  transform: translateY(-2px);
+}
+
+/* Discover: consistent card sizes */
+.discoverPiece.piece-0,
+.discoverPiece.piece-1,
+.discoverPiece.piece-2,
+.discoverPiece.piece-3,
+.discoverPiece.piece-4,
+.discoverPiece.piece-5 {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 23px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+}
+
+.discoverPiece.piece-1 {
+  background: var(--card);
+}
+
+.discoverPiece.piece-0 .discoverPostText {
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+/* Profile: match the rest of the site */
+.profileHeader {
+  padding: 28px;
+  border-radius: 22px;
+  margin: 8px 0 24px;
+}
+
+.profileSection {
+  padding: 22px 0;
+}
+
+/* Keep the layout comfortable on smaller screens */
+@media (max-width: 700px) {
+  .screen {
+    padding-top: 32px;
+  }
+
+  .card,
+  .mirrorQuestion,
+  .convoQuestion,
+  .discoverPiece.piece-0,
+  .discoverPiece.piece-1,
+  .discoverPiece.piece-2,
+  .discoverPiece.piece-3,
+  .discoverPiece.piece-4,
+  .discoverPiece.piece-5,
+  .profileHeader {
+    padding: 19px;
+  }
+}
+
 </style>
 </head>
 

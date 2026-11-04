@@ -612,123 +612,125 @@ select.input{
   padding:45px 10px 10px;
     }
   
-/* Discover: a little gallery of thoughts */
-.discoverIntro{
-  margin-bottom:30px;
+
+/* Discover — editorial gallery */
+
+.discoverIntro {
+  margin-bottom: 42px;
+  max-width: 650px;
 }
 
-.discoverEyebrow{
-  font-size:11px;
-  letter-spacing:1.8px;
-  color:var(--muted);
-  margin-bottom:12px;
+.discoverEyebrow {
+  font-size: 11px;
+  letter-spacing: 1.8px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 13px;
 }
 
-.discoverGallery{
-  display:flex;
-  flex-direction:column;
-  gap:13px;
+.discoverGallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: stretch;
 }
 
-.discoverPiece{
-  position:relative;
-  border-radius:24px;
-  padding:23px;
-  overflow:hidden;
-  border:1px solid rgba(80,65,50,.08);
+.discoverPiece {
+  position: relative;
+  padding: 27px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  border: 1px solid rgba(80,65,50,.09);
+  border-radius: 22px 22px 6px 22px;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 
-.discoverPiece.piece-0{
-  background:var(--yellow);
-  padding:29px 25px;
-  border-radius:30px 30px 12px 30px;
+.discoverPiece:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(52,45,39,.07);
 }
 
-.discoverPiece.piece-1{
-  background:transparent;
-  border:0;
-  border-bottom:1px solid var(--line);
-  border-radius:0;
-  padding:21px 8px;
+.discoverPiece.piece-0 {
+  background: var(--yellow);
+  min-height: 270px;
 }
 
-.discoverPiece.piece-2{
-  background:var(--green);
-  margin-left:18px;
-  border-radius:12px 28px 28px 28px;
+.discoverPiece.piece-1 {
+  background: #f4eee4;
 }
 
-.discoverPiece.piece-3{
-  background:var(--blue);
-  margin-right:18px;
-  border-radius:28px 12px 28px 28px;
+.discoverPiece.piece-2 {
+  background: var(--green);
 }
 
-.discoverPiece.piece-4{
-  background:var(--purple);
-  border-radius:28px 28px 28px 12px;
+.discoverPiece.piece-3 {
+  background: var(--blue);
 }
 
-.discoverPiece.piece-5{
-  background:var(--orange);
-  margin-left:10px;
-  border-radius:28px 12px 28px 28px;
+.discoverPiece.piece-4 {
+  background: var(--purple);
 }
 
-.discoverSymbol{
-  font-size:22px;
-  margin-bottom:13px;
-  color:var(--accent);
+.discoverPiece.piece-5 {
+  background: var(--orange);
 }
 
-.discoverPostText{
-  font-size:20px;
-  line-height:1.48;
-  letter-spacing:-.25px;
-  overflow-wrap:anywhere;
+.discoverPostText {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 21px;
+  line-height: 1.45;
+  letter-spacing: -.35px;
+  overflow-wrap: anywhere;
 }
 
-.piece-0 .discoverPostText{
-  font-size:25px;
-  line-height:1.38;
+.discoverPiece.piece-0 .discoverPostText {
+  font-size: 26px;
+  line-height: 1.35;
 }
 
-.discoverMeta{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:15px;
+.discoverMeta {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 22px;
 }
 
-.discoverAction{
-  margin-top:15px;
+.discoverAction {
+  margin-top: 15px;
 }
 
-.discoverAction button{
-  font-size:13px;
+.discoverAction button {
+  font-size: 13px;
+  padding: 9px 13px;
 }
 
-.discoverEnd{
-  text-align:center;
-  padding:40px 10px 15px;
+.discoverEnd {
+  text-align: center;
+  padding: 55px 10px 20px;
 }
 
-@media(max-width:480px){
-  .discoverPiece{
-    padding:20px;
+@media (max-width: 600px) {
+  .discoverGallery {
+    grid-template-columns: 1fr;
+    gap: 13px;
   }
 
-  .discoverPiece.piece-0{
-    padding:25px 21px;
+  .discoverPiece {
+    min-height: 190px;
+    padding: 23px;
   }
 
-  .discoverPiece.piece-2{
-    margin-left:10px;
+  .discoverPiece.piece-0 {
+    min-height: 240px;
   }
 
-  .discoverPiece.piece-3{
-    margin-right:10px;
+  .discoverPiece.piece-0 .discoverPostText {
+    font-size: 24px;
   }
 }
+
 
 /* Povi profile — quiet editorial design */
 

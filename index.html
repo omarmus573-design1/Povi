@@ -1677,40 +1677,41 @@ function convo() {
     <div class="convoIntro">
       <div class="convoEyebrow">A LITTLE CORNER FOR CURIOSITY</div>
 
-      <h1>Think about it together.</h1>
+      <h1 class="convoTitle">Think about it together.</h1>
 
-      <p class="muted">
+      <p class="muted convoDescription">
         You don't need the same answer.
         Just start with the same question.
       </p>
     </div>
 
-    ${questions.map((x, i) => `
-      <div
-        class="convoQuestion"
-        onclick="startConvo('${encodeURIComponent(x[1])}')"
-      >
-        <div class="convoStar">☆</div>
+    <div class="convoQuestionList">
+      ${questions.map((x, i) => `
+        <div
+          class="convoQuestion"
+          onclick="startConvo('${encodeURIComponent(x[1])}')"
+        >
+          <div class="convoText">
+            ${escapeHtml(x[1])}
+          </div>
 
-        <div class="convoText">
-          ${escapeHtml(x[1])}
-        </div>
+          <div class="convoMeta">
+            ${escapeHtml(x[0])}
+          </div>
 
-        <div class="convoMeta">
-          ${escapeHtml(x[0])}
-        </div>
+          <div class="convoHint">
+            A question worth exploring with someone.
+          </div>
 
-        <div class="convoHint">
-          Someone wondered about this.
+          <div class="convoArrow">
+            Step inside →
+          </div>
         </div>
-
-        <div class="convoArrow">
-          Step inside →
-        </div>
-      </div>
-    `).join('')}
+      `).join('')}
+    </div>
   `);
-  }
+}
+
 
 function startConvo(q) {
   state.convo = decodeURIComponent(q);

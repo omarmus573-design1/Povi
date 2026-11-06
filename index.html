@@ -1242,6 +1242,87 @@ body {
 }
 
 
+/* Home — refined typography */
+
+.homeIntro {
+  max-width: 690px;
+  margin-bottom: 25px;
+}
+
+.homeEyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  margin-bottom: 12px;
+}
+
+.homeTitle {
+  font-size: clamp(32px, 5vw, 45px);
+  line-height: 1.13;
+  letter-spacing: -1.5px;
+  font-weight: 650;
+  max-width: 650px;
+  margin: 0;
+}
+
+.homeIntro .muted {
+  max-width: 500px;
+  font-size: 15px;
+  line-height: 1.75;
+  margin-top: 15px;
+}
+
+.homeSectionTitle {
+  font-size: 21px;
+  line-height: 1.3;
+  letter-spacing: -.5px;
+  font-weight: 650;
+  margin: 35px 0 14px;
+}
+
+.homeFeatureCaption p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.homeInterest {
+  font-size: 13px;
+}
+
+.smallThought .thoughtText {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.smallThought .thoughtMeta {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.home .muted {
+  font-size: 14px;
+}
+
+@media(max-width:600px) {
+  .homeTitle {
+    font-size: clamp(31px, 8vw, 37px);
+    line-height: 1.16;
+    letter-spacing: -1.1px;
+  }
+
+  .homeIntro .muted {
+    font-size: 14px;
+  }
+
+  .homeSectionTitle {
+    font-size: 19px;
+  }
+
+  .smallThought .thoughtText {
+    font-size: 14px;
+  }
+}
+
 
 </style>
 </head>
@@ -1468,7 +1549,7 @@ function home() {
     ${
       homeInterests.length
         ? `
-          <h3>Your interests</h3>
+         <h3 class="homeSectionTitle">Your interests</h3>
 
           <div class="interestWorld">
             ${homeInterests.map(x => `
@@ -1484,7 +1565,7 @@ function home() {
         : ''
     }
 
-    <h3>Your world</h3>
+    <h3 class="homeSectionTitle">Your world</h3>
 
     ${
       relevant.length

@@ -854,9 +854,13 @@ select.input{
 }
 
   .convoStar,
-.discoverSymbol{
-  display:none;
-  }
+
+.discoverSymbol {
+  font-size: 25px;
+  line-height: 1;
+  margin-bottom: 19px;
+}
+
   /* Shared Povi website frame */
 
 .siteHeader {
@@ -1814,11 +1818,14 @@ function finish() {
 }
 
 
+
 function discover() {
   const posts = [
     ...state.posts.map(p => [p.interest, p.text, 'You']),
     ...seed
   ].slice(0, 6);
+
+  const symbols = ['🌷', '🍃', '🌼', '🪻', '🌱', '🌸'];
 
   shell(`
     <div class="discoverIntro">
@@ -1826,16 +1833,18 @@ function discover() {
 
       <h1>Look around.</h1>
 
-<p class="muted">
-  Every person sees the world a little differently.
-  Here are a few things worth stopping for.
-</p>
+      <p class="muted">
+        Every person sees the world a little differently.
+        Here are a few things worth stopping for.
+      </p>
     </div>
 
     <div class="discoverGallery">
       ${posts.map((x, i) => `
         <div class="discoverPiece piece-${i % 6}">
-          <div class="discoverSymbol">☆</div>
+          <div class="discoverSymbol">
+            ${symbols[i % symbols.length]}
+          </div>
 
           <div class="discoverPostText">
             ${escapeHtml(x[1])}
@@ -1866,6 +1875,7 @@ function discover() {
     </div>
   `);
 }
+
 
 
 function profile() {

@@ -1322,6 +1322,11 @@ body {
     font-size: 14px;
   }
 }
+  .convoFlower {
+  font-size: 23px;
+  margin-bottom: 17px;
+  line-height: 1;
+}
 
 
 </style>
@@ -1691,6 +1696,9 @@ function convo() {
           class="convoQuestion"
           onclick="startConvo('${encodeURIComponent(x[1])}')"
         >
+         <div class="convoFlower">
+    ${['🌼', '🌷', '🌿', '🌸', '🪻'][i % 5]}
+  </div>
           <div class="convoText">
             ${escapeHtml(x[1])}
           </div>

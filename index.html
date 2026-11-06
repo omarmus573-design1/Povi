@@ -1141,6 +1141,106 @@ body {
     margin-top: 9px;
   }
 }
+  
+/* Create — a quiet writing space */
+
+.createIntro {
+  max-width: 620px;
+  margin-bottom: 35px;
+}
+
+.createEyebrow {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  margin-bottom: 13px;
+}
+
+.createWorkspace {
+  padding: 27px;
+  background: #f7f1e7;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+}
+
+.createLabel {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 1.3px;
+  margin-bottom: 12px;
+}
+
+.createTextarea {
+  min-height: 190px;
+  resize: vertical;
+  background: var(--card);
+  border-radius: 15px;
+  line-height: 1.65;
+}
+
+.createFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.createDivider {
+  height: 1px;
+  background: var(--line);
+  margin: 26px 0;
+}
+
+.createSelect {
+  background: var(--card);
+}
+
+.createNote {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin: 25px 0;
+  padding: 15px;
+  background: #e5eadf;
+  border-radius: 14px;
+}
+
+.createNote span {
+  font-size: 19px;
+}
+
+.createNote p {
+  margin: 0;
+  color: #56634f;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.createSubmit {
+  width: 100%;
+  padding: 15px;
+}
+
+.createCancel {
+  display: block;
+  margin: 12px auto 0;
+  border: 0;
+}
+
+@media(max-width:600px) {
+  .createWorkspace {
+    padding: 19px;
+  }
+
+  .createTextarea {
+    min-height: 165px;
+  }
+}
+
 
 
 </style>
@@ -1802,38 +1902,89 @@ function saveProfile() {
   go('profile');
 }
 
+
 function create() {
   shell(`
-    <h1>Create something.</h1>
+    <div class="createIntro">
+      <div class="createEyebrow">A SPACE FOR YOUR THOUGHTS</div>
 
-    <p class="muted">
-      Share a thought, question, or small thing you made.
-    </p>
+      <h1>Something on your mind?</h1>
 
-    <div class="card">
-      <input
+      <p class="muted">
+        A question, a discovery, something you're learning,
+        or simply an idea you'd like to share.
+      </p>
+    </div>
+
+    <div class="createWorkspace">
+
+      <label class="createLabel" for="pt">
+        YOUR THOUGHT
+      </label>
+
+      <textarea
         id="pt"
-        class="input"
-        placeholder="What's on your mind?"
-      >
+        class="input createTextarea"
+        maxlength="500"
+        placeholder="Start wherever your thoughts take you..."
+        oninput="updatePostCount()"
+      ></textarea>
 
-      <div style="height:10px"></div>
+      <div class="createFooter">
+        <span class="muted small">
+          Take your time. There's no rush.
+        </span>
 
-      <select id="pi" class="input">
+        <span class="count" id="postCount">0 / 500</span>
+      </div>
+
+      <div class="createDivider"></div>
+
+      <label class="createLabel" for="pi">
+        WHERE DOES IT BELONG?
+      </label>
+
+      <select id="pi" class="input createSelect">
         ${interests.map(x => `
-          <option>${x}</option>
+          <option ${state.chosen.includes(x) && state.chosen[0] === x ? 'selected' : ''}>
+            ${escapeHtml(x)}
+          </option>
         `).join('')}
       </select>
 
+      <div class="createNote">
+        <span>🌱</span>
+        <p>
+          Share something genuine. Povi is about connection,
+          not collecting attention.
+        </p>
+      </div>
+
       <button
-        class="primary"
-        style="margin-top:12px"
+        class="primary createSubmit"
         onclick="post()"
       >
-        Post
+        Share your thought
       </button>
+
+      <button
+        class="ghost createCancel"
+        onclick="go('profile')"
+      >
+        Cancel
+      </button>
+
     </div>
   `);
+}
+
+function updatePostCount() {
+  const input = document.getElementById('pt');
+  const counter = document.getElementById('postCount');
+
+  if (input && counter) {
+    counter.textContent = `${input.value.length} / 500`;
+  }
 }
 
 function post() {

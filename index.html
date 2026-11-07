@@ -1502,7 +1502,30 @@ body {
   font-size: 11px;
   margin-top: 17px;
 }
+/* Profile — shared section as one container */
 
+.sharedSection {
+  background: #f5f0e7;
+  border: 1px solid #e8dfd2;
+  border-radius: 20px;
+  padding: 26px !important;
+  margin: 20px 0 !important;
+}
+
+.sharedSection h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.sharedSection .sharedPost {
+  background: #fffaf2;
+  border: 1px solid #e8dfd2;
+  margin: 12px 0;
+}
+
+.sharedSection .sharedPost:last-child {
+  margin-bottom: 0;
+}
   
 </style>
 </head>
@@ -2100,7 +2123,7 @@ function profile() {
   <p>${escapeHtml(p.projects || 'Projects, experiments, and things you want to make.')}</p>
 </div>
 
-     <div class="profileSection">
+   <div class="profileSection sharedSection">
   <h3>Things I've shared</h3>
 
   ${

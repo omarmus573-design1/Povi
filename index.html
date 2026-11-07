@@ -2100,28 +2100,25 @@ function profile() {
   <p>${escapeHtml(p.projects || 'Projects, experiments, and things you want to make.')}</p>
 </div>
 
-    <div class="profileSection">
-      <h3>Things I've shared</h3>
-      ${
-        state.posts.length
-         state.posts.map(post => `
-  <div class="sharedPost">
-    <div class="sharedPostCategory">
-      ${escapeHtml(post.interest)}
-    </div>
+     <div class="profileSection">
+  <h3>Things I've shared</h3>
 
-    <div class="sharedPostText">
-      ${escapeHtml(post.text)}
-    </div>
+  ${
+    state.posts.length
+      ? state.posts.map(post => `
+          <div class="sharedPost">
+            <div class="sharedPostCategory">
+              ${escapeHtml(post.interest)}
+            </div>
 
-    <div class="sharedPostFooter">
-      A thought shared on Povi
-    </div>
-  </div>
-`).join('')
-          : '<p class="muted">Your posts will find a home here.</p>'
-      }
-    </div>
+            <div class="sharedPostText">
+              ${escapeHtml(post.text)}
+            </div>
+          </div>
+        `).join('')
+      : '<p class="muted">Your posts will find a home here.</p>'
+  }
+</div>
   `);
 }
 

@@ -1433,7 +1433,44 @@ body {
   font-size: 15px;
   line-height: 1.8;
 }
+  /* Profile — exploration section */
 
+.projectSection {
+  background: #e8edf0;
+  border: 1px solid #d9e2e7;
+  border-radius: 20px;
+  padding: 26px !important;
+  margin: 20px 0 !important;
+}
+
+.projectEyebrow {
+  color: #647b86;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1.8px;
+  margin-bottom: 12px;
+}
+
+.projectSection h3 {
+  margin: 0 0 12px;
+}
+
+.projectSection p {
+  margin: 0;
+  color: #657078;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.profileInterest {
+  display: inline-flex;
+  align-items: center;
+  background: #e1e9db !important;
+  border: 1px solid #cbd9c4 !important;
+  color: #485642;
+  padding: 10px 16px;
+  border-radius: 20px;
+}
+  
 </style>
 </head>
 
@@ -2022,10 +2059,13 @@ function profile() {
       <p>${escapeHtml(p.learning || 'A language, a skill, a new idea…')}</p>
     </div>
 
-    <div class="profileSection">
-      <h3>Things I'm exploring</h3>
-      <p>${escapeHtml(p.projects || 'Projects, experiments, and things you want to make.')}</p>
-    </div>
+   <div class="profileSection projectSection">
+  <div class="projectEyebrow">IDEAS IN PROGRESS</div>
+
+  <h3>Things I'm exploring</h3>
+
+  <p>${escapeHtml(p.projects || 'Projects, experiments, and things you want to make.')}</p>
+</div>
 
     <div class="profileSection">
       <h3>Things I've shared</h3>

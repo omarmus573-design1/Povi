@@ -1470,6 +1470,39 @@ body {
   padding: 10px 16px;
   border-radius: 20px;
 }
+  /* Profile — shared thoughts */
+
+.sharedPost {
+  padding: 22px;
+  margin: 14px 0;
+  background: #f5f0e7;
+  border: 1px solid #e8dfd2;
+  border-radius: 17px;
+}
+
+.sharedPostCategory {
+  color: #71816b;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  margin-bottom: 13px;
+}
+
+.sharedPostText {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 19px;
+  line-height: 1.55;
+  color: #342d27;
+  overflow-wrap: anywhere;
+}
+
+.sharedPostFooter {
+  color: #8b8074;
+  font-size: 11px;
+  margin-top: 17px;
+}
+
   
 </style>
 </head>
@@ -2071,12 +2104,21 @@ function profile() {
       <h3>Things I've shared</h3>
       ${
         state.posts.length
-          ? state.posts.map(post => `
-              <p>
-                <b>${escapeHtml(post.interest)}</b><br>
-                ${escapeHtml(post.text)}
-              </p>
-            `).join('')
+         state.posts.map(post => `
+  <div class="sharedPost">
+    <div class="sharedPostCategory">
+      ${escapeHtml(post.interest)}
+    </div>
+
+    <div class="sharedPostText">
+      ${escapeHtml(post.text)}
+    </div>
+
+    <div class="sharedPostFooter">
+      A thought shared on Povi
+    </div>
+  </div>
+`).join('')
           : '<p class="muted">Your posts will find a home here.</p>'
       }
     </div>

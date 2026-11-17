@@ -1530,7 +1530,54 @@ body {
 .sharedSection .sharedPost:first-of-type {
   margin-top: 0;
 }
-  
+  /* Profile — compact header refinement */
+
+.profileHeader {
+  position: relative;
+  padding: 30px 32px 28px !important;
+  margin: 8px 0 28px !important;
+  min-height: 0;
+  height: auto;
+  background: #e8e8dc;
+  border-radius: 22px;
+}
+
+.profileEyebrow {
+  margin-bottom: 12px;
+}
+
+.profileName {
+  font-size: clamp(42px, 7vw, 56px);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.profileBio {
+  margin-top: 12px;
+  max-width: 460px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.profileActions {
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.profileHeader .ghost,
+.profileHeader .primary {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 600px) {
+  .profileHeader {
+    padding: 23px !important;
+  }
+
+  .profileName {
+    font-size: 44px;
+  }
+}
 </style>
 </head>
 

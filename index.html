@@ -1502,29 +1502,33 @@ body {
   font-size: 11px;
   margin-top: 17px;
 }
-/* Profile — shared section as one container */
+/* Things I've shared — unified container */
 
-.sharedSection {
-  background: #f5f0e7;
-  border: 1px solid #e8dfd2;
-  border-radius: 20px;
-  padding: 26px !important;
-  margin: 20px 0 !important;
+.profileSection.sharedSection {
+  display: block;
+  background: #f1ece2 !important;
+  border: 1px solid #e3d9ca !important;
+  border-radius: 22px;
+  padding: 28px !important;
+  margin: 24px 0 !important;
+  border-bottom: 1px solid #e3d9ca !important;
 }
 
-.sharedSection h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
+.profileSection.sharedSection h3 {
+  margin: 0 0 22px;
+  padding: 0;
 }
 
 .sharedSection .sharedPost {
   background: #fffaf2;
   border: 1px solid #e8dfd2;
-  margin: 12px 0;
+  border-radius: 16px;
+  padding: 22px;
+  margin: 12px 0 0;
 }
 
-.sharedSection .sharedPost:last-child {
-  margin-bottom: 0;
+.sharedSection .sharedPost:first-of-type {
+  margin-top: 0;
 }
   
 </style>
@@ -2124,12 +2128,14 @@ function profile() {
 </div>
 
    <div class="profileSection sharedSection">
+
   <h3>Things I've shared</h3>
 
   ${
     state.posts.length
       ? state.posts.map(post => `
           <div class="sharedPost">
+
             <div class="sharedPostCategory">
               ${escapeHtml(post.interest)}
             </div>
@@ -2137,10 +2143,16 @@ function profile() {
             <div class="sharedPostText">
               ${escapeHtml(post.text)}
             </div>
+
+            <div class="sharedPostFooter">
+              A thought shared on Povi
+            </div>
+
           </div>
         `).join('')
       : '<p class="muted">Your posts will find a home here.</p>'
   }
+
 </div>
   `);
 }

@@ -1611,6 +1611,24 @@ body {
   font-size: 11px;
   margin-top: 16px;
 }
+  /* Profile interests — interactive */
+
+.profileInterest {
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+}
+
+.profileInterest:hover {
+  background: #d5e2cf !important;
+  transform: translateY(-2px);
+}
+
+.profileInterest:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 </style>
 </head>
 
@@ -2187,10 +2205,13 @@ function profile() {
 
       <div class="profileInterests">
         ${state.chosen.map((x, i) => `
-          <span class="profileInterest">
-            ${escapeHtml(x)}
-          </span>
-        `).join('') || '<p class="muted">Your interests will appear here.</p>'}
+  <button
+    class="profileInterest"
+    onclick="interestPage('${encodeURIComponent(x)}')"
+  >
+    ${escapeHtml(x)}
+  </button>
+`).join('') || '<p class="muted">Your interests will appear here.</p>'}
       </div>
     </div>
 
